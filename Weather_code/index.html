@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Five-Day Weather Forecast</title>
+
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="scriptHA.js"></script>
+
+    <script src="stylesheet.css"></script>
+    <link href="https://fonts.googleapis.com/css?family=Big+Shoulders+Text|Noto+Sans&display=swap" rel="stylesheet">
+    <style type="text/css">
+        button,
+        div,
+        input {
+        margin: 25px;
+        font-family: 'Noto Sans', sans-serif;
+        }
+        
+        form {
+        margin: 10px;
+        font-family: 'Big Shoulders Text', 'cursive';
+        font: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Weather Forecast</h1>
+    
+        <div id="buttons-view"></div>
+    
+        <form id="weather-form">
+        <label for="city&state-input">Enter City and State here:</label>
+        <input type="text" id="city&state-input">
+        <br>
+    
+        <input id="city&state-input" type="submit" value="Submit">
+        </form>
+    
+        <div id="weather-view"></div>
+    <div class="city"></div>
+    <div class="wind"></div>
+    <div class="humidity"></div>
+    <div class="temp"></div>
+    <div class="uvindex"></div>
+    <div class="5dayForecast"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+    var APIKey = "ca203f6e9b7f34f8e1ae2a95ed5d1390";
+    var information = $(this).attr("class");
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?" +
+    "q=" + information + "units=imperial&appid=" + APIKey;
+
+    $.ajax({
+    url: queryURL,
+    method: "GET"
+    })
+
+    .then(function(response) {
+
+        console.log(queryURL);
+
+        console.log(response);
+
+        $(".city").html("<h1>" + response.name + " Current Weather Details</h1>");
+        $(".wind").text("Wind Speed: " + response.wind.speed);
+        $(".humidity").text("Humidity: " + response.main.humidity);
+        $(".temp").text("Temperature (F) " + response.main.temp);
+        $("UVIndex").text("UV Index" + response.main.uvindex);
+
+        var tempF = (response.main.temp - 273.15) * 1.80 + 32;
+        $(".tempF").text("Temperature (Kelvin) " + tempF);
+
+        console.log("Wind Speed: " + response.wind.speed);
+        console.log("Humidity: " + response.main.humidity);
+        console.log("Temperature (F): " + response.main.temp);
+    });
+</script>
+</body>
+
+</html>
